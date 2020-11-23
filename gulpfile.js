@@ -4,7 +4,8 @@ const gulp = require("gulp");
 const webpack = require("webpack-stream");
 const browsersync = require("browser-sync");
 
-const dist = "./dist/"; //путь куда компилируется проект
+// const dist = "./dist/"; //путь куда компилируется проект
+const dist = "C:/Program Files/VertrigoServ/www/site1.lc/projects/Windows";
 
 // служит для того что бы отслеживать изменения в html файлах
 

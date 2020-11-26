@@ -1,13 +1,11 @@
-let forms = ()=>{
+import checkNumInputs from './checkNumInputs';
+let forms = (state)=>{
     let forms = document.querySelectorAll('form'),
         inputs = document.querySelectorAll('input'),
-        phoneInputs = document.querySelectorAll('input[name="user_phone"]');
+        windows = document.querySelectorAll('[data-modal]');
+
+    checkNumInputs('input[name="user_phone"]');
     
-    phoneInputs.forEach((item)=>{
-        item.addEventListener('input', ()=>{
-            item.value = item.value.replace(/\D/, '');
-        });
-    });
     
     let message = {
         loading : "Идет загрузка ...",
@@ -20,6 +18,27 @@ let forms = ()=>{
             input.value = '';
         });
     };
+
+    let clearState = () =>{
+        for (let prop of Object.keys(state)){
+            delete state[prop];
+        }
+        document.querySelectorAll('.checkbox').forEach((item)=>{
+            item.checked = false;
+        });
+        
+    };
+
+    let closeModal = () =>{
+        setTimeout( function (){
+            windows.forEach((item)=>{
+                item.style.display = 'none';
+            });
+            document.body.style.overflow = '';
+        },2000);
+    };
+
+
 
     let postData = async (url,data) =>{
         document.querySelector('.status').textContent = message.loading;
@@ -41,6 +60,16 @@ let forms = ()=>{
             form.appendChild(statusMessage);
             
             let formData = new FormData(form);
+            // console.log(formData);
+            if (form.getAttribute('data-calc')=== "end"){
+                for(let key in state){
+                    formData.append(key, state[key]);
+                }
+                
+            }
+            
+
+
             postData('assets/server.php', formData)
             .then(res => {
                 console.log(res);
@@ -48,6 +77,8 @@ let forms = ()=>{
             })
             .catch(()=>document.querySelector('.status').textContent = message.failure)
             .finally(()=>{
+                closeModal();
+                clearState();
                 clearInputs();
                 setTimeout(()=>{
                     statusMessage.remove();

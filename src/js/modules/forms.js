@@ -72,7 +72,7 @@ let forms = (state)=>{
 
             postData('assets/server.php', formData)
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 document.querySelector('.status').textContent = message.success;
             })
             .catch(()=>document.querySelector('.status').textContent = message.failure)

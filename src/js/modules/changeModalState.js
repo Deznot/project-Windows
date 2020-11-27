@@ -51,7 +51,7 @@ function changeModalState(state){
                         break;
                 }
                 inputValidation(state);
-                console.log(state);
+                // console.log(state);
             });
             
             
